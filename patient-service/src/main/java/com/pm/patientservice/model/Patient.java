@@ -16,6 +16,8 @@ public class Patient {
     @NotNull
     private String name;
 
+    private String address;
+
     @NotNull
     @Email
     @Column(unique = true)
@@ -67,5 +69,13 @@ public class Patient {
     public void setRegisteredDate(LocalDate registeredDate) {
         this.registeredDate = registeredDate;
     }
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
 
 }
