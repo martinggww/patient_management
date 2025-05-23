@@ -9,13 +9,14 @@ import com.pm.patientservice.model.Patient;
 import com.pm.patientservice.repository.PatientRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class PatientService {
     // All service logics are implemented here
-    private PatientRepository patientRepository;
+    final private PatientRepository patientRepository;
 
     // This is called dependency ingesting
     public PatientService(PatientRepository patientRepository) {
@@ -40,6 +41,17 @@ public class PatientService {
     public PatientResponseDTO updatePatient(UUID id, PatientRequestDTO patientRequestDTO) {
         // Fetch the patient object by id
         Patient patient = patientRepository.findById(id).orElseThrow(() -> new PatientNotFoundException("Patient not found with ID: " + id));
-        
+
+        if (patientRepository.existsByEmail(patientRequestDTO.getEmail())) {
+            throw new EmailAlreadyExistsException("A patient with this email already exists" + patientRequestDTO.getEmail());
+        }
+
+        patient.setName(patientRequestDTO.getName());
+        patient.setAddress(patientRequestDTO.getAddress());
+        patient.setEmail(patientRequestDTO.getEmail());
+        patient.setDateOfBirth(LocalDate.parse(patientRequestDTO.getDateOfBirth()));
+        Patient updatedPatient =  patientRepository.save(patient);
+
+        return PatientMapper.toDTO(updatedPatient);
     }
 }
