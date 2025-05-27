@@ -11,7 +11,7 @@
 	<groupId>com.pm</groupId>
 	<artifactId>patient-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>patient-service</name>
 	<description>patient-service</description>
 	<url/>
